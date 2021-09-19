@@ -1,43 +1,61 @@
 const db = require("../database/models");
 const Op = db.Sequelize.Op;
 
+let apiController = {
 
-let productsController = {
+    list: function (req, res) 
+    {
+        return res.json("Hola");
+    },
 
-    products: function (req, res) {
-        db.Producto
+    canciones: function (req, res) 
+    {
+        db.Canciones
         .findAll()
-        .then(products => {
-            return res.status(200).json({
-                totalProducts: products.length,
-                data: products.map(oneProduct => {
-                    return{
-                        ...oneProduct,
-                        imagen: "http://localhost:3050/img/"+oneProduct.imagen
-                    }
-                }),
+        .then(canciones => 
+        {
+            return res.status(200).json
+            ({
+                total: canciones.length,
+                data: canciones,
                 status: 200
-            }); 
+            })
+        })
+        
+    },
+
+    nuevaCancion: function (req, res) 
+    {
+        // return res.json(req.body)
+        db.Canciones
+        .create(req.body)
+        .then(cancion => 
+        {
+            return res.status(200).json
+            ({
+                data: cancion,
+                status: 200,
+                created: "ok"
+            })
+        })
+        .catch(function(e)
+        {
+            console.log(e);
         })
     },
 
-    productDetail: function (req, res) { 
-        db.Producto
+    detalleCancion: function (req, res) { 
+        db.Canciones
             .findByPk(req.params.id)
-            .then(product => {
+            .then(cancion => {
                 return res.status(200).json({
-                data: product,
+                data: cancion,
                 status: 200
             });
         })
     },
-
-    productCart: function (req, res) {
-        res.json("");
-    },
     
-    
-    newProduct: function (req, res) {
+    cancionesGeneros: function (req, res) {
         db.Producto
             .findAll()
             .then(product =>{
@@ -49,22 +67,9 @@ let productsController = {
         })  
     },
     
-    store: function (req, res) {
-        db.Producto
-        .create(req.body)
-        .then(product => {
-            return res.status(200).json({
-                data: product,
-                status: 200,
-                created: "ok"
-                })
-            })
-        .catch(function(e){
-            console.log(e);
-        })
-    },
 
-    editProduct: function(req, res){
+
+    edicionCancion: function(req, res){
         db.Producto
         .findByPk(req.params.id)
         .then(product =>{
@@ -75,9 +80,9 @@ let productsController = {
         })      
     },
 
-    updateProduct: function(req, res){
+    edicionCancion: function(req, res){
         let image;
-        db.Producto
+        db.Canciones
         .findByPk(req.params.id)
         .then(product => {
             image = product.imagen;
@@ -106,8 +111,8 @@ let productsController = {
         //.catch(e => console.log(e))
     },
 
-    destroy: function (req, res){
-        db.Producto
+    eliminarCancion: function (req, res){
+        db.Canciones
         .destroy({
             where: {
                 id: req.params.id
@@ -204,82 +209,4 @@ let productsController = {
 
 }
 
-module.exports = productsController;
-
-// db.Producto
-// .count({ where: 
-//     {'id_categoria': {[Op.eq]: 1}},
-//  })
-// .then(analogicos => {
-//     return res.status(200).json({
-//                 analogicos: analogicos,
-//                 status: 200
-//     })
-        
-// }) 
-
-// db.Producto
-// .findAll()
-// .then(function(producto){
-//         const contadorAnalogico = 0;
-//         const contadorDigital = 0;
-//         let contadorLujo = 0;
-//         let contadorSmart = 0;
-//         for (let i = 0; i < producto.length; i++) {
-//             if(producto.id_categoria == 1){
-//                    return contadorAnalogico ++;
-//             }else if(producto.id_categoria == 2){
-//                     contadorDigital ++;
-//             }else if(producto.id_categoria == 3){
-//                 contadorLujo +=1;
-//             }else if(producto.id_categoria == 4){
-//                 contadorSmart +=1;
-//             }
-//             return res.status(200).json({
-//                 analogicos: contadorAnalogico,
-//                 digitales: contadorDigital,
-//                 lujo: contadorLujo,
-//                 smart: contadorSmart
-//             })
-//         }
-// })
-
-// }
-
-// let listadoCategoria1;
-// let listadoCategoria2;
-// let listadoCategoria3;
-// let listadoCategoria4;
-// let productos = db.Producto.findAll();
-
-// Promise.all([productos])
-
-// .then(function([product]){
-//     for (let i = 0; i < product.length; i++) {
-//         if(product.id_categoria == 1){
-//             listadoCategoria1++
-//         }
-//         if(product.id_categoria == 2){
-//             listadoCategoria2++
-//         }
-//         if(product.id_categoria == 3){
-//             listadoCategoria3++
-//         }
-//         if(product.id_categoria == 4){
-//             listadoCategoria4++
-//         }  
-//     }
-//     return res.status(200).json({
-//         data1: listadoCategoria1,
-//         data2: listadoCategoria2,
-//         data3: listadoCategoria3,
-//         data4: listadoCategoria4,
-//         status: 200,
-//         })
-
-
-
-
-    
-// })   
-// }   
+module.exports = apiController;

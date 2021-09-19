@@ -1,47 +1,57 @@
-module.exports = function (sequelize, dataTypes) {
+module.exports = function (sequelize, dataTypes) 
+{
     let alias = 'Canciones';
 
-    let cols = {
-        id: {
+    let cols = 
+    {
+        id: 
+        {
             type : dataTypes.INTEGER,
             primaryKey: true,
-            autoIncrement: true,
+            allowNull: false,
+            autoIncrement: true
         }, 
 
-        articulo: {
-            type: dataTypes.STRING(255)
+        titulo: 
+        {
+            type: dataTypes.STRING(45)
         },
 
-        descripcion: {
-            type: dataTypes.STRING(255)
+        duracion: 
+        {
+            type: dataTypes.INTEGER
         }, 
 
-        id_categoria: {
+        created_at:
+        {
+            type: dataTypes.DATE
+        },
+        
+        updated_at:
+        {
+            type: dataTypes.DATE
+        },
+        genero_id: 
+        {
             type : dataTypes.INTEGER,
+            allowNull: false
         }, 
 
-        id_marca: {
+        album_id: 
+        {
             type : dataTypes.INTEGER,
+            allowNull: false
         },
 
-        stock: {
+        artista_id: 
+        {
             type : dataTypes.INTEGER,
-        }, 
-
-        precio: {
-            type : dataTypes.DECIMAL(10,2),
+            allowNull: false
         },
-        imagen: {
-            type: dataTypes.STRING(255),
-        },
-        oferta: {
-            type: dataTypes.STRING(255)
-        }
-
-
     };
     
-    const config = {
+    const config = 
+    {
 
         tableName:'canciones',
         timestamps: false
@@ -50,26 +60,44 @@ module.exports = function (sequelize, dataTypes) {
 
     const Canciones = sequelize.define(alias, cols, config);
 
-    // Producto.associate = function(modelos) {
+    Canciones.associate = function(modelos) 
+    {
         
-    //     Producto.belongsTo(modelos.Categoria, {
-    //         as: "categoria",
-    //         foreignKey: "id_categoria"
-    //     })
-        
-    //     Producto.belongsTo(modelos.Marca, {
-    //         as: "marca",
-    //         foreignKey: "id_marca"
-    //     })
-    
-    //     Producto.belongsToMany(modelos.Venta, {
-    //         as: "ventas",
-    //         through: "detalle_venta",
-    //         foreignKey: "id_venta",
-    //         otherKey: "id_producto", 
-    //         timestamps: false,
-    //     })
-    // }
+        Canciones.belongsTo(modelos.Artistas, //Relación: Una canción tiene un artista
+        {
+            as: "artistas",
+            foreignKey: "artista_id"
+        })
 
-    return Cancion;
+        Canciones.belongsTo(modelos.Albumes, //Relación: Una canción tiene un álbum
+            {
+                as: "albumes",
+                foreignKey: "album_id"
+            })
+        
+        Canciones.belongsTo(modelos.Generos, //Relación: Una canción tiene un género
+        {
+            as: "generos",
+            foreignKey: "genero_id"
+        })
+    }
+
+    return Canciones;
 }
+
+// ### Esta es la base de datos musicando, a continuación vas a ver como fue creada
+// _Esta base de datos está compuesta por las siguientes tablas_
+// - Artistas
+// - Canciones
+// - Albumes
+// - Generos
+
+// _Las relaciones están definidas de la siguiente forma_
+// - Una canción tiene un album
+// - Un albun tiene muchas canciones
+
+// - Una canción tiene un genero
+// - Un genero tiene muchas canciones
+
+// - Una canción tiene un artista
+// - Un artista tiene muchas canciones

@@ -1,47 +1,30 @@
-module.exports = function (sequelize, dataTypes) {
+module.exports = function (sequelize, dataTypes) 
+{
     let alias = 'Artistas';
 
-    let cols = {
-        id: {
+    let cols = 
+    {
+        id: 
+        {
             type : dataTypes.INTEGER,
             primaryKey: true,
+            allowNull: false,
             autoIncrement: true,
         }, 
 
-        articulo: {
-            type: dataTypes.STRING(255)
+        nombre: 
+        {
+            type: dataTypes.STRING(45)
         },
 
-        descripcion: {
-            type: dataTypes.STRING(255)
+        apellido: 
+        {
+            type: dataTypes.STRING(45)
         }, 
-
-        id_categoria: {
-            type : dataTypes.INTEGER,
-        }, 
-
-        id_marca: {
-            type : dataTypes.INTEGER,
-        },
-
-        stock: {
-            type : dataTypes.INTEGER,
-        }, 
-
-        precio: {
-            type : dataTypes.DECIMAL(10,2),
-        },
-        imagen: {
-            type: dataTypes.STRING(255),
-        },
-        oferta: {
-            type: dataTypes.STRING(255)
-        }
-
-
     };
     
-    const config = {
+    const config = 
+    {
 
         tableName:'artistas',
         timestamps: false
@@ -50,26 +33,34 @@ module.exports = function (sequelize, dataTypes) {
 
     const Artistas = sequelize.define(alias, cols, config);
 
-    Producto.associate = function(modelos) {
+    Artistas.associate = function(modelos) 
+    {
         
-        Producto.belongsTo(modelos.Categoria, {
-            as: "categoria",
-            foreignKey: "id_categoria"
-        })
-        
-        Producto.belongsTo(modelos.Marca, {
-            as: "marca",
-            foreignKey: "id_marca"
-        })
-       
-        Producto.belongsToMany(modelos.Venta, {
-            as: "ventas",
-            through: "detalle_venta",
-            foreignKey: "id_venta",
-            otherKey: "id_producto", 
-            timestamps: false,
+        Artistas.hasMany(modelos.Canciones, //Relación: Un artista tiene muchas canciones
+        {
+            as: "canciones",
+            foreignKey: "artista_id"
         })
     }
 
     return Artistas;
 }
+
+
+// ### Esta es la base de datos musicando, a continuación vas a ver como fue creada
+// _Esta base de datos está compuesta por las siguientes tablas_
+// - Artistas
+// - Canciones
+// - Albumes
+// - Generos
+
+// _Las relaciones están definidas de la siguiente forma_
+// - Una canción tiene un album
+// - Un albun tiene muchas canciones
+
+// - Una canción tiene un genero
+// - Un genero tiene muchas canciones
+
+// - Una canción tiene un artista
+// - Un artista tiene muchas canciones
+

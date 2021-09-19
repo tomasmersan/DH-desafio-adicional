@@ -1,23 +1,26 @@
-module.exports = function (sequelize, dataTypes) {
+module.exports = function (sequelize, dataTypes) 
+{
     let alias = 'Generos';
 
-    let cols = {
-        id: {
+    let cols = 
+    {
+        id: 
+        {
             type : dataTypes.INTEGER,
             primaryKey: true,
+            allowNull: false,
             autoIncrement: true,
         }, 
 
-        nombre: {
-            type: dataTypes.STRING(255)
-        },
-
-        precio: {
-            type : dataTypes.DECIMAL(10,2),
-        },
+        nombre: 
+        {
+            type: dataTypes.STRING(45)
+        }
+        
     };
     
-    const config = {
+    const config = 
+    {
 
         tableName:'generos',
         timestamps: false
@@ -26,26 +29,32 @@ module.exports = function (sequelize, dataTypes) {
 
     const Generos = sequelize.define(alias, cols, config);
 
-    // Producto.associate = function(modelos) {
+    Generos.associate = function(modelos) 
+    {
         
-    //     Producto.belongsTo(modelos.Categoria, {
-    //         as: "categoria",
-    //         foreignKey: "id_categoria"
-    //     })
-        
-    //     Producto.belongsTo(modelos.Marca, {
-    //         as: "marca",
-    //         foreignKey: "id_marca"
-    //     })
-    
-    //     Producto.belongsToMany(modelos.Venta, {
-    //         as: "ventas",
-    //         through: "detalle_venta",
-    //         foreignKey: "id_venta",
-    //         otherKey: "id_producto", 
-    //         timestamps: false,
-    //     })
-    // }
+        Generos.hasMany(modelos.Canciones, //Relación: Un género tiene muchas canciones
+        {
+            as: "canciones",
+            foreignKey: "genero_id"
+        })
+    }
 
     return Generos;
 }
+
+// ### Esta es la base de datos musicando, a continuación vas a ver como fue creada
+// _Esta base de datos está compuesta por las siguientes tablas_
+// - Artistas
+// - Canciones
+// - Albumes
+// - Generos
+
+// _Las relaciones están definidas de la siguiente forma_
+// - Una canción tiene un album
+// - Un albun tiene muchas canciones
+
+// - Una canción tiene un genero
+// - Un genero tiene muchas canciones
+
+// - Una canción tiene un artista
+// - Un artista tiene muchas canciones
