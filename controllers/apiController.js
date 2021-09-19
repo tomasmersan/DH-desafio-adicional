@@ -73,6 +73,12 @@ let apiController =
         {
             return res.status(200).json
                 ({
+                    id: req.params.id,
+                    titulo: req.body.titulo,
+                    duracion: req.body.duracion,
+                    genero_id: req.body.genero_id,
+                    album_id: req.body.album_id,
+                    artista_id: req.body.artista_id,
                     data: cancion,
                     status: 200,
                     edited: "ok"
