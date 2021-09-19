@@ -3,8 +3,6 @@ const router = express.Router();
 const path = require("path");
 const apiController = require("../controllers/apiController");
 
-router.get("/", apiController.list) // prueba
-
 router.get("/canciones", apiController.canciones); // un listado de canciones con sus propiedades
 
 router.post("/canciones", apiController.nuevaCancion); // creación de una nueva canción
