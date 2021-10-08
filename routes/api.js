@@ -3,17 +3,17 @@ const router = express.Router();
 const path = require("path");
 const apiController = require("../controllers/apiController");
 
-router.get("/canciones", apiController.canciones); // un listado de canciones con sus propiedades
+router.get("/", apiController.canciones); // un listado de canciones con sus propiedades
 
-router.post("/canciones", apiController.nuevaCancion); // creación de una nueva canción
+router.post("/", apiController.nuevaCancion); // creación de una nueva canción
 
-router.get("/canciones/:id", apiController.detalleCancion); // detalle de una canción
+router.get("/:id", apiController.detalleCancion); // detalle de una canción
 
-router.put("/canciones/:id", apiController.edicionCancion); // edición de una canción
+router.put("/:id", apiController.edicionCancion); // edición de una canción
 
-router.delete('/canciones/:id', apiController.eliminarCancion); // eliminar una canción
+router.delete('/:id', apiController.eliminarCancion); // eliminar una canción
 
-router.get('/canciones/generos/:id', apiController.cancionesGeneros); // listado de canciones que coincidan con los géneros
+router.get('/generos/:id', apiController.cancionesGeneros); // listado de canciones que coincidan con los géneros
 
 module.exports = router;
 

@@ -44,6 +44,13 @@ let apiController =
         db.Canciones
             .findByPk(req.params.id)
             .then(cancion => {
+                if (cancion == null)
+                {
+                    return res.status(500).json({
+                        error: "No se encontró ningún ID"
+                    });
+                }
+                
                 return res.status(200).json({
                 data: cancion,
                 status: 200
@@ -123,3 +130,31 @@ let apiController =
 }
 
 module.exports = apiController;
+
+// edicionCancion: function(req, res){
+//     db.Cancion
+//         .findByPk(req.params.id)
+//         .then(cancion => {               
+//         db.Canciones  
+//             .update ({
+//                 id: req.body.id, 
+//                 titulo: req.body.titulo, 
+//                 duracion: req.body.duracion,
+//                 created_at: req.body.created_at,
+//                 updated_at: req.body.updated_at,
+//                 genero_id: req.body.genero_id,
+//                 album_id: req.body.album_id,
+//                 artista_id: req.body.artista_id
+//             }, 
+//             {
+//                 where:
+//                 {
+//                     id:req.params.id
+//                 }
+//             })
+//             return res.status(200).json({
+//                 data: cancion,
+//                 status: 200
+//             })
+//         })
+// }
